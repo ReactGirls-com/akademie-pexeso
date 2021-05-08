@@ -3,7 +3,7 @@ import "./App.css";
 import Board from "./components/Board";
 
 function App() {
-  const [cardCount, setCardCount] = useState(3 * 3);
+  const [cardCount, setCardCount] = useState(2);
   return (
     <div className="App">
       <Board

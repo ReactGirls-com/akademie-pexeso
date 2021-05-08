@@ -2,6 +2,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./styles.css";
 import Card from "../Card";
 
+const randomRotations = [...new Array(100)].map(() =>
+  Math.floor(Math.random() * 360)
+);
+
 function useDogs(count) {
   const [dogs, setDogs] = useState([]);
 
@@ -47,13 +51,15 @@ export default function Board(props) {
     if (foundCouple.length === 2) {
       if (foundCouple[0] === foundCouple[1]) {
         // we got a match!
-        setOpenCards([]);
-        setFoundCards([...foundCards, ...openCards]);
+        setTimeout(() => {
+          setOpenCards([]);
+          setFoundCards([...foundCards, ...openCards]);
+        }, 2000);
       } else {
         // no match!
         setTimeout(() => {
           setOpenCards([]);
-        }, 3000);
+        }, 2000);
       }
     }
 
@@ -66,7 +72,7 @@ export default function Board(props) {
     }
   });
 
-  const oneDim = Math.ceil(Math.sqrt(props.cardCount));
+  const oneDim = Math.ceil(Math.sqrt(props.cardCount * 2));
 
   return (
     <React.Fragment>
@@ -78,18 +84,39 @@ export default function Board(props) {
         }}
       >
         {cards.map((url, index) => {
+          const isFoundCard = foundCards.includes(index);
+          if (isFoundCard) {
+            return <div />;
+          }
+
           return (
             <Card
               imageUrl={url}
-              flipped={openCards.includes(index) || foundCards.includes(index)}
+              flipped={openCards.includes(index) || isFoundCard}
               onClick={() => {
-                if (openCards.length < 2) {
+                if (openCards.length < 2 && !openCards.includes(index)) {
                   setOpenCards([...openCards, index]);
                 }
               }}
             />
           );
         })}
+      </div>
+      <div className="card-pack">
+        {foundCards
+          .map((index) => cards[index])
+          .map((url, index) => (
+            <div
+              style={{
+                position: "absolute",
+                width: 100,
+                height: 100,
+                transform: `rotate(${randomRotations[index]}deg)`,
+              }}
+            >
+              <Card flipped imageUrl={url} />
+            </div>
+          ))}
       </div>
     </React.Fragment>
   );

@@ -3,3 +3,13 @@
   height: 100%;
   gap: 20px;
 }
+
+.card-pack {
+  display: grid;
+  grid-template: 100px / 100px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 100px;
+  height: 100px;
+}
