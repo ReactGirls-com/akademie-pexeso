@@ -72,6 +72,7 @@ export default function Board(props) {
     }
   });
 
+  // one dimension of the layout
   const oneDim = Math.ceil(Math.sqrt(props.cardCount * 2));
 
   return (
@@ -107,10 +108,8 @@ export default function Board(props) {
           .map((index) => cards[index])
           .map((url, index) => (
             <div
+              className="rotation-wrapper"
               style={{
-                position: "absolute",
-                width: 100,
-                height: 100,
                 transform: `rotate(${randomRotations[index]}deg)`,
               }}
             >

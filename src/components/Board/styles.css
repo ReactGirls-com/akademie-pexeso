@@ -13,3 +13,9 @@
   width: 100px;
   height: 100px;
 }
+
+.rotation-wrapper {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
