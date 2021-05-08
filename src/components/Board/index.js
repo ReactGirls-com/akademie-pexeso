@@ -20,6 +20,23 @@ export default function Board(props) {
   const images = useDogs(props.cardCount);
   const cards = [...images, ...images];
   const [openCards, setOpenCards] = useState([]);
+  const [foundCards, setFoundCards] = useState([]);
+
+  useEffect(() => {
+    const foundCouple = openCards.map((index) => cards[index]);
+    if (foundCouple.length === 2) {
+      if (foundCouple[0] === foundCouple[1]) {
+        // we got a match!
+        setOpenCards([]);
+        setFoundCards([...foundCards, ...openCards]);
+      } else {
+        // no match!
+        setTimeout(() => {
+          setOpenCards([]);
+        }, 3000);
+      }
+    }
+  });
 
   return (
     <React.Fragment>
@@ -29,9 +46,11 @@ export default function Board(props) {
           return (
             <Card
               imageUrl={url}
-              flipped={openCards.includes(index)}
+              flipped={openCards.includes(index) || foundCards.includes(index)}
               onClick={() => {
-                setOpenCards([...openCards, index]);
+                if (openCards.length < 2) {
+                  setOpenCards([...openCards, index]);
+                }
               }}
             />
           );

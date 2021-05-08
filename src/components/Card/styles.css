@@ -31,14 +31,17 @@
   height: 100%;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
   color: black;
-  background-color: #bbb;
-  background-size: cover;
+  background-color: dodgerblue;
+  background-size: contain;
   background-position: center center;
+  background-repeat: no-repeat;
 }
 
 /* Style the back side */
