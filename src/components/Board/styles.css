@@ -1,6 +1,5 @@
 .board {
   display: grid;
   height: 100%;
-  grid-template: 1fr 1fr / 1fr 1fr;
   gap: 20px;
 }

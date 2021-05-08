@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./styles.css";
 import Card from "../Card";
 
@@ -16,9 +16,29 @@ function useDogs(count) {
   return dogs;
 }
 
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 export default function Board(props) {
   const images = useDogs(props.cardCount);
-  const cards = [...images, ...images];
+  const cards = useMemo(() => shuffle([...images, ...images]), [images]);
   const [openCards, setOpenCards] = useState([]);
   const [foundCards, setFoundCards] = useState([]);
 
@@ -36,12 +56,27 @@ export default function Board(props) {
         }, 3000);
       }
     }
+
+    const gameIsFinished =
+      foundCards.length === cards.length && cards.length !== 0;
+    if (gameIsFinished) {
+      setTimeout(() => {
+        props.onFinished();
+      }, 3000);
+    }
   });
+
+  const oneDim = Math.ceil(Math.sqrt(props.cardCount));
 
   return (
     <React.Fragment>
       <h1>{props.title}</h1>
-      <div className="board">
+      <div
+        className="board"
+        style={{
+          gridTemplate: `repeat(${oneDim}, 1fr) / repeat(${oneDim}, 1fr)`,
+        }}
+      >
         {cards.map((url, index) => {
           return (
             <Card

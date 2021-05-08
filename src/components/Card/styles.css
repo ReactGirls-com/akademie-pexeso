@@ -31,7 +31,7 @@
   height: 100%;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
